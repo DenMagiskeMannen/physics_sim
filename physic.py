@@ -38,11 +38,11 @@ g=-9.81
 m=10
 G=m*g
 
-Xresistence=0
+Xresistence=-3
 
 #T
 timestep=0.01
-totaltime=2.0
+totaltime=3.0
 times=[]
 for i in range(int(totaltime/timestep)):
     times.append(i)
