@@ -37,14 +37,19 @@ def do_friction(vector,coof,ratio):
     print(friction)
     if vector > 0: #
         vector=vector-friction
+        if vector < 0:
+            vector=0
         print("Big;",vector)
     elif vector < 0:
         vector=vector+friction
+        if vector > 0:
+            vector=0
         print("small;",vector)
+        
     return(vector)
 
 #Material
-elasticity=0.0
+elasticity=0.9
 
 
 #Vo
@@ -129,7 +134,7 @@ if ylim0 == ylim1:
     ylim1+=1
 #print(xlim0,xlim1,"\n",ylim0,ylim1)
 
-dist=5
+dist=50
 for i in times:
     #print(i,Distances[i],Heights[i])
     
