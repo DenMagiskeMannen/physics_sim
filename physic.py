@@ -24,25 +24,31 @@ def establish_para():
     plt.xlim(xlim0,xlim1)
     plt.ylim(ylim0,ylim1+10)
 
+#Material
+elasticity=0.9
+
 
 #Vo
-startUp=5
-startRight=5
+startUp=3
+startRight=1
 
 #So
 startX=0
-startY=10
+startY=0
 
 #A
 g=-9.81
 m=10
 G=m*g
 
-Xresistence=-3
+
+air_friction=0
+ground_friction=0
+Xresistence=0 #Wind or smt
 
 #T
 timestep=0.01
-totaltime=3.0
+totaltime=7.0
 times=[]
 for i in range(int(totaltime/timestep)):
     times.append(i)
@@ -59,7 +65,7 @@ Distances=[]
 Heights=[]
 
 
-
+#physics
 for frame in times:
     #print(frame,currentY)
     #Ratio
@@ -75,6 +81,7 @@ for frame in times:
     if currentY <=0:
         #currentY=currentY-Yvector
         currentY=0
+        Yvector=Yvector*(-1)*elasticity
     
     Distances.append(currentX)
     Heights.append(currentY)
@@ -90,7 +97,7 @@ if ylim0 == ylim1:
     ylim1+=1
 #print(xlim0,xlim1,"\n",ylim0,ylim1)
 
-dist=5
+dist=10
 for i in times:
     #print(i,Distances[i],Heights[i])
     
