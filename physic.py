@@ -24,17 +24,36 @@ def establish_para():
     plt.xlim(xlim0,xlim1)
     plt.ylim(ylim0,ylim1+10)
 
+def check_on_ground(y_value,floor_value):
+    On_ground=False
+    if y_value<=floor_value:
+        On_ground=True
+    else:
+        On_ground=False
+    return(On_ground)
+
+def do_friction(vector,coof,ratio):
+    friction=(vector*coof)/ratio
+    print(friction)
+    if vector > 0: #
+        vector=vector-friction
+        print("Big;",vector)
+    elif vector < 0:
+        vector=vector+friction
+        print("small;",vector)
+    return(vector)
+
 #Material
-elasticity=0.9
+elasticity=0.0
 
 
 #Vo
-startUp=3
-startRight=1
+startUp=0
+startRight=3
 
 #So
-startX=0
-startY=0
+startX=2
+startY=100
 
 #A
 g=-9.81
@@ -43,12 +62,13 @@ G=m*g
 
 
 air_friction=0
-ground_friction=0
+ground_friction=1
 Xresistence=0 #Wind or smt
+
 
 #T
 timestep=0.01
-totaltime=7.0
+totaltime=2.0
 times=[]
 for i in range(int(totaltime/timestep)):
     times.append(i)
@@ -72,6 +92,7 @@ for frame in times:
     ratio=1/timestep
     
     #MovementX
+    #XForce
     Xvector=Xvector+(Xresistence/ratio)
     currentX=currentX+(Xvector)
     #Movement Y
@@ -79,14 +100,25 @@ for frame in times:
     currentY=currentY+Yvector
     
     if currentY <=0:
+        #print(Yvector)
         #currentY=currentY-Yvector
         currentY=0
         Yvector=Yvector*(-1)*elasticity
-    
+        #print(Yvector)
+        #print()
+    In_contact=check_on_ground(currentY,0)
+    if In_contact==True and Xvector != 0:
+        Friction_affected_Xvector=do_friction(Xvector,ground_friction,ratio)
+        print(Friction_affected_Xvector)
+        Xvector=Friction_affected_Xvector
+        print(Xvector)
+        
+   #is_on_grond=check_on_ground(currentY, 0)
+        
     Distances.append(currentX)
     Heights.append(currentY)
 
-
+    
 xlim0,xlim1 =limfind(Distances)
 if xlim0 == xlim1:
     xlim0-=1
@@ -97,7 +129,7 @@ if ylim0 == ylim1:
     ylim1+=1
 #print(xlim0,xlim1,"\n",ylim0,ylim1)
 
-dist=10
+dist=5
 for i in times:
     #print(i,Distances[i],Heights[i])
     
@@ -108,7 +140,9 @@ for i in times:
         plt.scatter(Distances[i],Heights[i])
         plt.plot(Distances[:i],Heights[:i])
         plt.show()
+        #print(On_ground)
         time.sleep(0.1)
+        
 
 """
 if frame % fta ==0:
