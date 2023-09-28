@@ -32,33 +32,54 @@ def check_on_ground(y_value,floor_value):
         On_ground=False
     return(On_ground)
 
-def do_friction(vector,coof,ratio):
-    friction=(vector*coof)/ratio
+def establish_friction(m,a,coof,ratio):
+    N=m*g*(-1)
+    R=N*coof
+    friction=R
     print(friction)
+    return(friction)
+
+def do_friction(vector,established_friction):
+    friction=established_friction
+    #print(friction)
+    #print(vector)
+    a=friction/ratio
+    
+    if vector <= friction:
+        vector=0
+    elif vector > friction:
+        vector-=a
+    
+    #vector=vector+((a)/ratio)
+    print(a,vector)
+    
+    if vector<=0:
+        vector=0
+    
+    """
     if vector > 0: #
         vector=vector-friction
         if vector < 0:
             vector=0
-        print("Big;",vector)
+       
     elif vector < 0:
         vector=vector+friction
         if vector > 0:
             vector=0
-        print("small;",vector)
-        
+            """
     return(vector)
 
 #Material
-elasticity=0.9
+elasticity=0
 
 
 #Vo
 startUp=0
-startRight=3
+startRight=20
 
 #So
-startX=2
-startY=100
+startX=0
+startY=0
 
 #A
 g=-9.81
@@ -67,18 +88,19 @@ G=m*g
 
 
 air_friction=0
-ground_friction=1
+ground_friction=0.01
 Xresistence=0 #Wind or smt
+
 
 
 #T
 timestep=0.01
-totaltime=2.0
+totaltime=40
 times=[]
 for i in range(int(totaltime/timestep)):
     times.append(i)
 
-print(times)
+#print(times)
 
 currentX=startX
 currentY=startY
@@ -89,12 +111,15 @@ Xvector=startRight
 Distances=[]
 Heights=[]
 
+ratio=1/timestep
+
+ground_friction=establish_friction(m,g,ground_friction,ratio)
 
 #physics
 for frame in times:
     #print(frame,currentY)
     #Ratio
-    ratio=1/timestep
+    
     
     #MovementX
     #XForce
@@ -111,12 +136,13 @@ for frame in times:
         Yvector=Yvector*(-1)*elasticity
         #print(Yvector)
         #print()
+        
     In_contact=check_on_ground(currentY,0)
+    
+    
     if In_contact==True and Xvector != 0:
-        Friction_affected_Xvector=do_friction(Xvector,ground_friction,ratio)
-        print(Friction_affected_Xvector)
-        Xvector=Friction_affected_Xvector
-        print(Xvector)
+        Xvector=do_friction(Xvector,ground_friction)
+        #print(Xvector)
         
    #is_on_grond=check_on_ground(currentY, 0)
         
@@ -139,7 +165,7 @@ for i in times:
     #print(i,Distances[i],Heights[i])
     
     
-    establish_para()
+   # establish_para()
     
     if i % dist == 0:
         plt.scatter(Distances[i],Heights[i])
@@ -155,8 +181,9 @@ if frame % fta ==0:
     plt.show()
     time.sleep(0.5)
 """
-establish_para()
-plt.plot(Distances,Heights)
+#establish_para()
+plt.plot(times,Distances)
+plt.show()
 #plt.subplot(2,1,1)
 #plt.plot(times,Heights)
 
