@@ -74,8 +74,8 @@ elasticity=0
 
 
 #Vo
-startUp=0
-startRight=20
+startUp=2
+startRight=1
 
 #So
 startX=0
@@ -88,14 +88,14 @@ G=m*g
 
 
 air_friction=0
-ground_friction=0.01
+ground_friction=0
 Xresistence=0 #Wind or smt
 
 
 
 #T
 timestep=0.01
-totaltime=40
+totaltime=2
 times=[]
 for i in range(int(totaltime/timestep)):
     times.append(i)
@@ -165,7 +165,7 @@ for i in times:
     #print(i,Distances[i],Heights[i])
     
     
-   # establish_para()
+    establish_para()
     
     if i % dist == 0:
         plt.scatter(Distances[i],Heights[i])
@@ -181,8 +181,8 @@ if frame % fta ==0:
     plt.show()
     time.sleep(0.5)
 """
-#establish_para()
-plt.plot(times,Distances)
+establish_para()
+plt.plot(Distances,Heights)
 plt.show()
 #plt.subplot(2,1,1)
 #plt.plot(times,Heights)

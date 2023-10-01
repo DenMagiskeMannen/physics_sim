@@ -10,6 +10,7 @@ pygame.init()
 
 # Set up the drawing window
 screen = pygame.display.set_mode([500, 500])
+clock= pygame.tick.Clock()
 
 # Run until the user asks to quit
 running = True
@@ -24,9 +25,8 @@ while running:
     screen.fill((255, 255, 255))
 
     # Draw a solid blue circle in the center
-    for i in range(500):
         
-        pygame.draw.circle(screen, (0, 0, 255), (i, i), 2)
+    pygame.draw.circle(screen, (0, 0, 255), (50, 60), 20)
     
     # Flip the display
     pygame.display.flip()
